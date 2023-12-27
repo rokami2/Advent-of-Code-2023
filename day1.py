@@ -3,21 +3,13 @@ import re
 import numpy as np
 
 #initalize vars
-numstr = ""
 numarray = []
-index = -1
+index = 0
 codeindex = -1
 num = ""
 converted_int = 0
-code = []
+code = 0
 total = 0
-
-# #read the file
-# cypher = open("input.txt", "r")
-
-# #read the first line
-# line = cypher.readline()
-# print(line)
 
 
 #read each line and if it has a number add it to numstr
@@ -27,34 +19,41 @@ with open("input.txt", "r") as cypher:
         print(linenum)
 
         if linenum:
-            numstr += ''.join(linenum)
             numarray += linenum
-            print(linenum)
 
+#iterate through numstr and add numbers together
+#ToDo make sure that no numbers are added more than once 
+num = numarray[index]     
 
-        #if line only has one number add it twice
-        # if linenum2:
-        #     numstr += ''.join(linenum)
-# print(numstr)
-# print(numarray)
-#iterate through numstr and add numbers together      
-for index in range(0, len(numstr), 2):
-    # print(char)
+for index in range(0, len(numarray), 2):
 
-    num = numstr[index:index+2]
+    # check if the number isn't two digits and change accordingly for first number
+    if int(num) < 10:
+        converted_int = num + num
+    # logic to check if the number is too high and change the number accordingly
+    elif int(num) > 99:
+        converted_int = num[0:2]
+    else:
+        converted_int = num
 
-    converted_int2 = int(num)
-    # print(num)
+    num = numarray[index+1]
+
+    # check if the number isn't two digits and change accordingly for second number
+    if int(num) < 10:
+        converted_int2 = num + num
+    # check if the number is too high and change the number accordingly
+    elif int(num) > 99:
+        converted_int2 = num[0:2]
+    else:
+        converted_int2 = num
+
     if index % 2 == 0:
-        converted_int2 = int(num)
-        total = converted_int + converted_int2
+        total = int(converted_int) + int(converted_int2)
         print(total, "=", converted_int, "+", converted_int2)
-        code += str(total)
+        code += total
+        converted_int = converted_int2
     
-    converted_int = converted_int2
     index += 1
-    
-for codeindex in code:
-     result = code[codeindex]
 
-     print(result)
+#prints the result out for input on advent of code website
+print (code)
