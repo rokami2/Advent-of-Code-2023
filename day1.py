@@ -2,7 +2,9 @@
 import re
 
 #initalize vars
+arystrTemp = []
 numarray = []
+converted_numbers = []
 index = 0
 norepeat = 0
 num = ""
@@ -14,17 +16,15 @@ total = 0
 #read each line and if it has a number add it to numstr
 with open("input.txt", "r") as cypher:
         
-        linenum = re.findall("[0-9]+", cypher.read())
-
+        linenum = re.findall("\d+", cypher.read())
+    
         if linenum:
             numarray += linenum
 
-#iterate through numstr and add numbers together
-#ToDo make sure that no numbers are added more than once 
-num = numarray[index]     
+#iterate through numstr and add numbers together  
 
-for index in range(0, len(numarray), 2):
-    print("DEBUG: ", index)
+for index, num in enumerate(numarray):
+    print("Line", index, "number pulled", num)
     # check if the number isn't two digits and change accordingly for first number
     if int(num) < 10:
         converted_int = num + num
@@ -34,27 +34,13 @@ for index in range(0, len(numarray), 2):
     else:
         converted_int = num
 
-    num = numarray[index+1]
+    #put converted integers into a new array
+    converted_numbers.append(converted_int)
 
-    # check if the number isn't two digits and change accordingly for second number
-    if int(num) < 10:
-        converted_int2 = num + num
-    # check if the number is too high and change the number accordingly
-    elif int(num) > 99:
-        converted_int2 = num[0] + num[-1]
-    else:
-        converted_int2 = num
-
-
-    norepeat += 1
-    if norepeat % 2 == 0:
-        print("DEBUG: Add to results")
-        total = int(converted_int) + int(converted_int2)
-        print(total, "=", converted_int, "+", converted_int2)
-        code += total
-        
-    
+#add numbers together to create code
+for index2, con_num in enumerate(converted_numbers):
+     code += int(con_num)
     
 
 #prints the result out for input on advent of code website
-print (code)
+print(code)
